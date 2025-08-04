@@ -22,9 +22,9 @@ const defaultNewUser: Omit<User, 'id'> = {
   fullname: '',
   role: 'user',
   username: '',
-  notes: '',
+  // notes: '',
   email: '',
-  active: true,
+  is_active: true,
   projects: [],
 }
 
@@ -87,7 +87,7 @@ const onSave = () => {
 const roleSelectOptions: { text: Capitalize<Lowercase<UserRole>>; value: UserRole }[] = [
   { text: 'Admin', value: 'admin' },
   { text: 'User', value: 'user' },
-  { text: 'Owner', value: 'owner' },
+  // { text: 'Owner', value: 'owner' },
 ]
 </script>
 
@@ -168,7 +168,7 @@ const roleSelectOptions: { text: Capitalize<Lowercase<UserRole>>; value: UserRol
         </div>
       </div>
 
-      <VaTextarea v-model="newUser.notes" label="Notes" class="w-full" name="notes" />
+       <!--  <VaTextarea v-model="newUser.notes" label="Notes" class="w-full" name="notes" /> -->
       <div class="flex gap-2 flex-col-reverse items-stretch justify-end w-full sm:flex-row sm:items-center">
         <VaButton preset="secondary" color="secondary" @click="$emit('close')">Cancel</VaButton>
         <VaButton :disabled="!isValid" @click="onSave">{{ saveButtonLabel }}</VaButton>
