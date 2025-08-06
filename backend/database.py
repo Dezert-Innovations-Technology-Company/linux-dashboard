@@ -1,10 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from backend.config import DATABASE_URL 
 
-# DATABASE_URL from .env
-SQLALCHEMY_DATABASE_URL = DATABASE_URL
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:123456789@localhost/QuraanAppUsers"
 
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
@@ -13,6 +11,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
+# 👇 Add this function
 def get_db():
     db = SessionLocal()
     try:
