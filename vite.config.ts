@@ -1,3 +1,4 @@
+
 // import { defineConfig } from 'vite'
 // import vue from '@vitejs/plugin-vue'
 // import { resolve, dirname } from 'node:path'
@@ -9,6 +10,15 @@
 // export default defineConfig({
 //   build: {
 //     sourcemap: true,
+//   },
+//   server: {
+//     proxy: {
+//       '/api': {
+//         target: 'http://127.0.0.1:8000',
+//         changeOrigin: true,
+//         rewrite: (path) => path.replace(/^\/api/, ''),
+//       },
+//     },
 //   },
 //   plugins: [
 //     vuestic({
@@ -22,10 +32,12 @@
 //   ],
 //   resolve: {
 //     alias: {
-//       '@': resolve(__dirname, './src'), // addedd
+//       '@': resolve(__dirname, './src'),
 //     },
 //   },
 // })
+
+
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve, dirname } from 'node:path'
