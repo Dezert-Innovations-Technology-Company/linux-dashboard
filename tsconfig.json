@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "noEmit": true,
+    "noEmitOnError": false,
     "target": "esnext",
     "useDefineForClassFields": true,
     "module": "ESNext",
