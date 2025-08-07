@@ -1,81 +1,39 @@
 import { defineStore } from 'pinia'
-import {
-  addUser,
-  type Filters,
-  getUsers,
-  Pagination,
-  removeUser,
-  Sorting,
-  updateUser,
-  uploadAvatar,
-} from '../data/pages/users'
-import { User } from '../pages/users/types'
+import { api } from '../services/api'
+import type { User, UserCreate } from '../pages/users/types'
 
 export const useUsersStore = defineStore('users', {
-  state: () => {
-    return {
-      items: [] as User[],
-      pagination: { page: 1, perPage: 10, total: 0 },
-    }
-  },
+  state: () => ({
+    items: [] as User[],
+    pagination: {
+      page: 1,
+      perPage: 10,
+      total: 0,
+    },
+  }),
 
   actions: {
-    async getAll(options: { pagination?: Pagination; sorting?: Sorting; filters?: Partial<Filters> }) {
-      const { data, pagination } = await getUsers({
-        ...options.filters,
-        ...options.sorting,
-        ...options.pagination,
-      })
-      this.items = data
-      this.pagination = pagination
+    async getAll() {
+      const users = await api.getUsers()
+      this.items = users
+      this.pagination.total = users.length
     },
 
-    async add(user: User) {
-      try {
-        const newUser = await addUser(user)
-        this.items.unshift(newUser)
-        console.log('User added:', newUser)
-        return newUser
-      } catch (e) {
-        console.error('Failed to add user:', e)
-        throw e
-      }
+    async add(user: UserCreate) {
+      const newUser = await api.createUser(user)
+      await this.getAll()
+      return newUser
     },
 
     async update(user: User) {
-      try {
-        const updatedUser = await updateUser(user)
-        const index = this.items.findIndex(({ id }) => id === user.id)
-        if (index !== -1) {
-          this.items.splice(index, 1, updatedUser)
-        }
-        console.log('User updated:', updatedUser)
-        return updatedUser
-      } catch (e) {
-        console.error('Failed to update user:', e)
-        throw e
-      }
+      const updated = await api.updateUser(user.id, user)
+      await this.getAll()
+      return updated
     },
 
     async remove(user: User) {
-      try {
-        const isRemoved = await removeUser(user)
-        if (isRemoved) {
-          const index = this.items.findIndex(({ id }) => id === user.id)
-          if (index !== -1) {
-            this.items.splice(index, 1)
-          }
-          console.log('User removed:', user)
-        }
-        return isRemoved
-      } catch (e) {
-        console.error('Failed to remove user:', e)
-        throw e
-      }
-    },
-
-    async uploadAvatar(formData: FormData) {
-      return uploadAvatar(formData)
+      await api.deleteUser(user.id)
+      await this.getAll()
     },
   },
 })
