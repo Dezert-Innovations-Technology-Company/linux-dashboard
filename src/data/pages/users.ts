@@ -49,7 +49,9 @@ export const addUser = async (user: UserCreate): Promise<User> => {
     role: user.role,
     avatar: user.avatar,
     is_active: user.is_active ?? true,
-    projects: user.projects ?? [],
+    // projects: user.projects ?? [],
+    projects: [],
+
   }
 
   return await api.createUser(payload)
