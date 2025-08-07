@@ -1,5 +1,7 @@
 import os
 from dotenv import load_dotenv
+from backend.config import DATABASE_URL as SQLALCHEMY_DATABASE_URL
+
 
 load_dotenv()
 
